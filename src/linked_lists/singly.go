@@ -5,6 +5,10 @@ type Node struct {
 	next *Node
 }
 
+func createNode(value int, nextNode Node) Node {
+	return Node{data: value, next: &nextNode}
+}
+
 func main() {
 	var newNode Node
 	newNode.data = 1
