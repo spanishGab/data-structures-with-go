@@ -8,32 +8,28 @@ type Node struct {
 }
 
 type SinglyLinkedList struct {
-    head Node
+    head *Node
     iterator *Node
     length int
 }
 
 
-func createEmptyList() SinglyLinkedList {
+func CreateEmptyList() SinglyLinkedList {
     return SinglyLinkedList{
-        head: Node{data: 0, next: nil},
-        iterator: &Node{data: 0, next: nil},
+        head: nil,
+        iterator: nil,
         length: 0,
     }
 }
 
 
-func insertAtEnd(list *SinglyLinkedList, value int) {
+func InsertAtEnd(list *SinglyLinkedList, value int) {
     var newNode Node = Node{data: value, next: nil}
 
-    fmt.Println("insertAtEnd")
-
-    if list.head.next == nil {
-        fmt.Println("Criando segundo item")
-        list.head.next = &newNode
-        fmt.Println(list.head, list.head.next)
+    if list.head == nil {
+        list.head = &newNode
     } else {
-        list.iterator = list.head.next
+        resetIterator(list)
 
         for list.iterator.next != nil {
             list.iterator = list.iterator.next
@@ -42,18 +38,78 @@ func insertAtEnd(list *SinglyLinkedList, value int) {
         list.iterator.next = &newNode
     }
 
-    list.iterator = &list.head
+    resetIterator(list)
 }
 
-func main() {
-	var list SinglyLinkedList = createEmptyList()
 
-    fmt.Println(list.head, list.iterator)
-    insertAtEnd(&list, 15)
+func InsertAtBeginning(list *SinglyLinkedList, value int) {
+    var newNode Node = Node{data: value, next: nil}
+
+    if list.head != nil {
+        newNode.next = list.head
+    }
+
+    list.head = &newNode
+
+    resetIterator(list)
+}
 
 
+func InsertAtPosition(list *SinglyLinkedList, value int, pos int) {
+    var newNode Node = Node{data: value, next: nil}
+
+    if list.head == nil {
+        list.head = &newNode
+    } else {
+        resetIterator(list)
+
+        // zero indexed pos
+        for i := 0; i < pos - 1; i++ {
+            list.iterator = list.iterator.next
+        }
+
+        newNode.next = list.iterator.next
+        list.iterator.next = &newNode
+    }
+
+    resetIterator(list)
+}
+
+
+func resetIterator(list *SinglyLinkedList) {
+    list.iterator = list.head
+}
+
+func PrintList(list *SinglyLinkedList) {
     for list.iterator != nil {
-        fmt.Println(list.iterator.data)
+        fmt.Printf("%d ", list.iterator.data)
         list.iterator = list.iterator.next
     }
+    fmt.Println()
+
+    resetIterator(list)
+}
+
+
+func main() {
+	var list SinglyLinkedList = CreateEmptyList()
+
+    InsertAtEnd(&list, 15)
+    PrintList(&list)
+
+
+    InsertAtBeginning(&list, 10)
+    PrintList(&list)
+
+    InsertAtEnd(&list, 20)
+    PrintList(&list)
+
+    InsertAtBeginning(&list, 5)
+    PrintList(&list)
+
+    InsertAtEnd(&list, 30)
+    PrintList(&list)
+
+    InsertAtPosition(&list, 25, 4)
+    PrintList(&list)
 }
