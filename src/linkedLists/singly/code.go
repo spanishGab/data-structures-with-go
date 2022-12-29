@@ -75,10 +75,30 @@ func InsertAtPosition(list *SinglyLinkedList, value int, pos int) {
 
 
 func DeleteFromBegginning(list *SinglyLinkedList) {
-    if (list.head != nil) {
-        list.length -= 1
-        list.head = list.head.next
+    if (list.head == nil) {
+        return
     }
+
+    list.length -= 1
+    list.head = list.head.next
+}
+
+func DeleteFromEnd(list *SinglyLinkedList) {
+    if list.head == nil {
+        return
+    }
+
+    var previousElement *Node = list.head
+    var currentElement *Node = list.head
+
+    list.length -= 1
+
+    for currentElement.next != nil {
+        previousElement = currentElement
+        currentElement = currentElement.next
+    }
+
+    previousElement.next = nil
 }
 
 func PrintList(list *SinglyLinkedList) {
@@ -93,7 +113,7 @@ func PrintList(list *SinglyLinkedList) {
 }
 
 
-func fifo() {
+func fifoExample() {
 	var list SinglyLinkedList = CreateEmptyList()
 
     InsertAtBeginning(&list, 10)
@@ -113,9 +133,36 @@ func fifo() {
 
         iterator = iterator.next
     }
+}
 
+func lifoExample() {
+	var list SinglyLinkedList = CreateEmptyList()
+
+    InsertAtPosition(&list, 5, 0)
+    PrintList(&list)
+
+    InsertAtEnd(&list, 10)
+    PrintList(&list)
+
+    InsertAtEnd(&list, 20)
+    PrintList(&list)
+
+    var iterator *Node = list.head
+
+    for iterator != nil {
+        DeleteFromEnd(&list)
+        PrintList(&list)
+
+        iterator = iterator.next
+    }
 }
 
 func main() {
-    fifo()
+    fmt.Println("Begin Fifo Example:")
+    fifoExample()
+    fmt.Print("End Fifo Example\n\n")
+
+    fmt.Println("Begin Lifo Example:")
+    lifoExample()
+    fmt.Print("End Lifo Example\n\n")
 }
