@@ -9,7 +9,6 @@ type Node struct {
 
 type SinglyLinkedList struct {
     head *Node
-    iterator *Node
     length int
 }
 
@@ -17,7 +16,6 @@ type SinglyLinkedList struct {
 func CreateEmptyList() SinglyLinkedList {
     return SinglyLinkedList{
         head: nil,
-        iterator: nil,
         length: 0,
     }
 }
@@ -26,77 +24,77 @@ func CreateEmptyList() SinglyLinkedList {
 func InsertAtEnd(list *SinglyLinkedList, value int) {
     var newNode Node = Node{data: value, next: nil}
 
+    list.length += 1
+
     if list.head == nil {
         list.head = &newNode
-    } else {
-        resetIterator(list)
-
-        for list.iterator.next != nil {
-            list.iterator = list.iterator.next
-        }
-
-        list.iterator.next = &newNode
+        return
     }
 
-    resetIterator(list)
+    var iterator *Node = list.head
+
+    for iterator.next != nil {
+        iterator = iterator.next
+    }
+
+    iterator.next = &newNode
 }
 
 
 func InsertAtBeginning(list *SinglyLinkedList, value int) {
     var newNode Node = Node{data: value, next: nil}
 
-    if list.head != nil {
-        newNode.next = list.head
-    }
+    newNode.next = list.head
 
     list.head = &newNode
 
-    resetIterator(list)
+    list.length += 1
 }
 
 
 func InsertAtPosition(list *SinglyLinkedList, value int, pos int) {
     var newNode Node = Node{data: value, next: nil}
 
+    list.length += 1
+
     if list.head == nil {
         list.head = &newNode
-    } else {
-        resetIterator(list)
-
-        // zero indexed pos
-        for i := 0; i < pos - 1; i++ {
-            list.iterator = list.iterator.next
-        }
-
-        newNode.next = list.iterator.next
-        list.iterator.next = &newNode
+        return
     }
 
-    resetIterator(list)
+    var iterator *Node = list.head
+
+    // zero indexed pos
+    for i := 0; i < pos - 1; i++ {
+        iterator = iterator.next
+    }
+
+    newNode.next = iterator.next
+    iterator.next = &newNode
 }
 
 
-func resetIterator(list *SinglyLinkedList) {
-    list.iterator = list.head
+func DeleteFromBegginning(list *SinglyLinkedList) {
+    if (list.head != nil) {
+        list.length -= 1
+        list.head = list.head.next
+    }
 }
 
 func PrintList(list *SinglyLinkedList) {
-    for list.iterator != nil {
-        fmt.Printf("%d ", list.iterator.data)
-        list.iterator = list.iterator.next
+    var iterator *Node = list.head
+
+    fmt.Printf("list_length: %d, list_content: ", list.length)
+    for iterator != nil {
+        fmt.Printf("%d->", iterator.data)
+        iterator = iterator.next
     }
     fmt.Println()
-
-    resetIterator(list)
 }
 
 
-func main() {
+func fifo() {
 	var list SinglyLinkedList = CreateEmptyList()
-
-    InsertAtEnd(&list, 15)
-    PrintList(&list)
-
 
     InsertAtBeginning(&list, 10)
     PrintList(&list)
@@ -104,12 +102,20 @@ func main() {
     InsertAtEnd(&list, 20)
     PrintList(&list)
 
-    InsertAtBeginning(&list, 5)
+    InsertAtPosition(&list, 25, 2)
     PrintList(&list)
 
-    InsertAtEnd(&list, 30)
-    PrintList(&list)
+    var iterator *Node = list.head
 
-    InsertAtPosition(&list, 25, 4)
-    PrintList(&list)
+    for iterator != nil {
+        DeleteFromBegginning(&list)
+        PrintList(&list)
+
+        iterator = iterator.next
+    }
+
+}
+
+func main() {
+    fifo()
 }
