@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func _main() {
 	var marks [4][4]int
 
 	for i := 0; i < len(marks); i++ {

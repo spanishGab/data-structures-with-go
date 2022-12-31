@@ -1,0 +1,6 @@
+go 1.19
+
+use ./src/linkedLists
+use ./src/linkedLists/singly
+
+use ./src/usage

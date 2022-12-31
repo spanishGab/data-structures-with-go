@@ -1,4 +1,4 @@
-package main
+package singly
 
 import "fmt"
 
@@ -21,7 +21,7 @@ func CreateEmptyList() SinglyLinkedList {
 }
 
 
-func append(list *SinglyLinkedList, value int) {
+func Append(list *SinglyLinkedList, value int) {
     var newNode Node = Node{data: value, next: nil}
 
     list.length += 1
@@ -41,7 +41,7 @@ func append(list *SinglyLinkedList, value int) {
 }
 
 
-func push(list *SinglyLinkedList, value int) {
+func Push(list *SinglyLinkedList, value int) {
     var newNode Node = Node{data: value, next: nil}
 
     newNode.next = list.head
@@ -52,7 +52,7 @@ func push(list *SinglyLinkedList, value int) {
 }
 
 
-func insert(list *SinglyLinkedList, value int, pos int) {
+func Insert(list *SinglyLinkedList, value int, pos int) {
     var newNode Node = Node{data: value, next: nil}
 
     list.length += 1
@@ -74,7 +74,7 @@ func insert(list *SinglyLinkedList, value int, pos int) {
 }
 
 
-func delete(list *SinglyLinkedList) {
+func Delete(list *SinglyLinkedList) {
     if (list.head == nil) {
         return
     }
@@ -83,7 +83,7 @@ func delete(list *SinglyLinkedList) {
     list.head = list.head.next
 }
 
-func pop(list *SinglyLinkedList) {
+func Pop(list *SinglyLinkedList) {
     if list.head == nil {
         return
     }
@@ -107,7 +107,7 @@ func pop(list *SinglyLinkedList) {
 }
 
 
-func remove(list *SinglyLinkedList, pos int) {
+func Remove(list *SinglyLinkedList, pos int) {
     if list.head == nil {
         return
     }
@@ -156,110 +156,4 @@ func PrintList(list *SinglyLinkedList) {
         iterator = iterator.next
     }
     fmt.Println()
-}
-
-
-func fifoExample() {
-	var list SinglyLinkedList = CreateEmptyList()
-
-    push(&list, 5)
-    PrintList(&list)
-
-    append(&list, 10)
-    PrintList(&list)
-
-    insert(&list, 15, 2)
-    PrintList(&list)
-
-    var iterator *Node = list.head
-
-    for iterator != nil {
-        delete(&list)
-        PrintList(&list)
-
-        iterator = iterator.next
-    }
-}
-
-func lifoExample() {
-	var list SinglyLinkedList = CreateEmptyList()
-
-    insert(&list, 5, 0)
-    PrintList(&list)
-
-    append(&list, 10)
-    PrintList(&list)
-
-    append(&list, 15)
-    PrintList(&list)
-
-    pop(&list)
-    PrintList(&list)
-
-    pop(&list)
-    PrintList(&list)
-
-    pop(&list)
-    PrintList(&list)
-}
-
-
-func randomExample() {
-	var list SinglyLinkedList = CreateEmptyList()
-
-    append(&list, 10)
-    PrintList(&list)
-
-    push(&list, 5)
-    PrintList(&list)
-
-    append(&list, 15)
-    PrintList(&list)
-
-    remove(&list, 1)
-    PrintList(&list)
-
-    remove(&list, 0)
-    PrintList(&list)
-
-    remove(&list, 0)
-    PrintList(&list)
-
-}
-
-
-func searchExample() {
-	var list SinglyLinkedList = CreateEmptyList()
-
-    append(&list, 10)
-    PrintList(&list)
-
-    push(&list, 5)
-    PrintList(&list)
-
-    append(&list, 15)
-    PrintList(&list)
-
-    for i := 0; i < list.length; i++ {
-        fmt.Printf("Element at position %d: %d\n", i, SearchElementData(&list, i))
-    }
-}
-
-
-func main() {
-    fmt.Println("Begin Fifo Example:")
-    fifoExample()
-    fmt.Print("End Fifo Example\n\n")
-
-    fmt.Println("Begin Lifo Example:")
-    lifoExample()
-    fmt.Print("End Lifo Example\n\n")
-
-    fmt.Println("Begin Random Example:")
-    randomExample()
-    fmt.Print("End Random Example\n\n")
-
-    fmt.Println("Begin Search Example:")
-    searchExample()
-    fmt.Print("End Search Example\n\n")
 }
