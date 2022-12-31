@@ -136,6 +136,17 @@ func remove(list *SinglyLinkedList, pos int) {
 }
 
 
+func SearchElementData(list *SinglyLinkedList, pos int) int {
+    var element *Node = list.head
+
+    for i := 0; i < pos; i++ {
+        element = element.next
+    }
+
+    return element.data
+}
+
+
 func PrintList(list *SinglyLinkedList) {
     var iterator *Node = list.head
 
@@ -216,6 +227,25 @@ func randomExample() {
 
 }
 
+
+func searchExample() {
+	var list SinglyLinkedList = CreateEmptyList()
+
+    append(&list, 10)
+    PrintList(&list)
+
+    push(&list, 5)
+    PrintList(&list)
+
+    append(&list, 15)
+    PrintList(&list)
+
+    for i := 0; i < list.length; i++ {
+        fmt.Printf("Element at position %d: %d\n", i, SearchElementData(&list, i))
+    }
+}
+
+
 func main() {
     fmt.Println("Begin Fifo Example:")
     fifoExample()
@@ -228,4 +258,8 @@ func main() {
     fmt.Println("Begin Random Example:")
     randomExample()
     fmt.Print("End Random Example\n\n")
+
+    fmt.Println("Begin Search Example:")
+    searchExample()
+    fmt.Print("End Search Example\n\n")
 }
