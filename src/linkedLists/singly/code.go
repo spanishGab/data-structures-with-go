@@ -21,7 +21,7 @@ func CreateEmptyList() SinglyLinkedList {
 }
 
 
-func InsertAtEnd(list *SinglyLinkedList, value int) {
+func append(list *SinglyLinkedList, value int) {
     var newNode Node = Node{data: value, next: nil}
 
     list.length += 1
@@ -41,7 +41,7 @@ func InsertAtEnd(list *SinglyLinkedList, value int) {
 }
 
 
-func InsertAtBeginning(list *SinglyLinkedList, value int) {
+func push(list *SinglyLinkedList, value int) {
     var newNode Node = Node{data: value, next: nil}
 
     newNode.next = list.head
@@ -52,7 +52,7 @@ func InsertAtBeginning(list *SinglyLinkedList, value int) {
 }
 
 
-func InsertAtPosition(list *SinglyLinkedList, value int, pos int) {
+func insert(list *SinglyLinkedList, value int, pos int) {
     var newNode Node = Node{data: value, next: nil}
 
     list.length += 1
@@ -74,7 +74,7 @@ func InsertAtPosition(list *SinglyLinkedList, value int, pos int) {
 }
 
 
-func DeleteFromBegginning(list *SinglyLinkedList) {
+func delete(list *SinglyLinkedList) {
     if (list.head == nil) {
         return
     }
@@ -83,15 +83,20 @@ func DeleteFromBegginning(list *SinglyLinkedList) {
     list.head = list.head.next
 }
 
-func DeleteFromEnd(list *SinglyLinkedList) {
+func pop(list *SinglyLinkedList) {
     if list.head == nil {
         return
     }
 
-    var previousElement *Node = list.head
-    var currentElement *Node = list.head
-
     list.length -= 1
+
+    if list.head.next == nil {
+        list.head = nil
+        return
+    }
+
+    var previousElement *Node
+    var currentElement *Node = list.head
 
     for currentElement.next != nil {
         previousElement = currentElement
@@ -100,6 +105,36 @@ func DeleteFromEnd(list *SinglyLinkedList) {
 
     previousElement.next = nil
 }
+
+
+func remove(list *SinglyLinkedList, pos int) {
+    if list.head == nil {
+        return
+    }
+
+    list.length -= 1
+
+    if list.head.next == nil {
+        list.head = nil
+        return
+    }
+
+    if pos == 0 {
+        list.head = list.head.next
+        return
+    }
+
+    var previousElement *Node
+    var currentElement *Node = list.head
+
+    for i := 0; i < pos; i++ {
+        previousElement = currentElement
+        currentElement = currentElement.next
+    }
+
+    previousElement.next = currentElement.next
+}
+
 
 func PrintList(list *SinglyLinkedList) {
     var iterator *Node = list.head
@@ -116,19 +151,19 @@ func PrintList(list *SinglyLinkedList) {
 func fifoExample() {
 	var list SinglyLinkedList = CreateEmptyList()
 
-    InsertAtBeginning(&list, 10)
+    push(&list, 5)
     PrintList(&list)
 
-    InsertAtEnd(&list, 20)
+    append(&list, 10)
     PrintList(&list)
 
-    InsertAtPosition(&list, 25, 2)
+    insert(&list, 15, 2)
     PrintList(&list)
 
     var iterator *Node = list.head
 
     for iterator != nil {
-        DeleteFromBegginning(&list)
+        delete(&list)
         PrintList(&list)
 
         iterator = iterator.next
@@ -138,23 +173,47 @@ func fifoExample() {
 func lifoExample() {
 	var list SinglyLinkedList = CreateEmptyList()
 
-    InsertAtPosition(&list, 5, 0)
+    insert(&list, 5, 0)
     PrintList(&list)
 
-    InsertAtEnd(&list, 10)
+    append(&list, 10)
     PrintList(&list)
 
-    InsertAtEnd(&list, 20)
+    append(&list, 15)
     PrintList(&list)
 
-    var iterator *Node = list.head
+    pop(&list)
+    PrintList(&list)
 
-    for iterator != nil {
-        DeleteFromEnd(&list)
-        PrintList(&list)
+    pop(&list)
+    PrintList(&list)
 
-        iterator = iterator.next
-    }
+    pop(&list)
+    PrintList(&list)
+}
+
+
+func randomExample() {
+	var list SinglyLinkedList = CreateEmptyList()
+
+    append(&list, 10)
+    PrintList(&list)
+
+    push(&list, 5)
+    PrintList(&list)
+
+    append(&list, 15)
+    PrintList(&list)
+
+    remove(&list, 1)
+    PrintList(&list)
+
+    remove(&list, 0)
+    PrintList(&list)
+
+    remove(&list, 0)
+    PrintList(&list)
+
 }
 
 func main() {
@@ -165,4 +224,8 @@ func main() {
     fmt.Println("Begin Lifo Example:")
     lifoExample()
     fmt.Print("End Lifo Example\n\n")
+
+    fmt.Println("Begin Random Example:")
+    randomExample()
+    fmt.Print("End Random Example\n\n")
 }
