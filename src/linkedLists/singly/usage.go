@@ -5,22 +5,18 @@ import "fmt"
 func Example1() {
 	var list SinglyLinkedList = New()
 
-	list.Push(5)
-	fmt.Println(list.PrintList())
+	list.Insert(5, 0)
+	fmt.Println(list.Repr())
 
 	list.Append(10)
-	fmt.Println(list.PrintList())
+	fmt.Println(list.Repr())
 
-	list.Insert(15, 2)
-	fmt.Println(list.PrintList())
+	list.Insert(15, 0)
+	fmt.Println(list.Repr())
 
-	var iterator *Node = list.head
-
-	for iterator != nil {
-		list.Delete()
-		fmt.Println(list.PrintList())
-
-		iterator = iterator.next
+	for list.head != nil {
+		list.Delete(0)
+		fmt.Println(list.Repr())
 	}
 }
 
@@ -28,44 +24,40 @@ func Example2() {
 	var list SinglyLinkedList = New()
 
 	list.Insert(5, 0)
-	fmt.Println(list.PrintList())
+	fmt.Println(list.Repr())
 
 	list.Append(10)
-	fmt.Println(list.PrintList())
+	fmt.Println(list.Repr())
 
 	list.Append(15)
-	fmt.Println(list.PrintList())
+	fmt.Println(list.Repr())
 
-	list.Pop()
-	fmt.Println(list.PrintList())
-
-	list.Pop()
-	fmt.Println(list.PrintList())
-
-	list.Pop()
-	fmt.Println(list.PrintList())
+	for list.head != nil {
+		list.Pop()
+		fmt.Println(list.Repr())
+	}
 }
 
 func Example3() {
 	var list SinglyLinkedList = New()
 
 	list.Append(10)
-	fmt.Println(list.PrintList())
+	fmt.Println(list.Repr())
 
-	list.Push(5)
-	fmt.Println(list.PrintList())
+	list.Insert(5, 0)
+	fmt.Println(list.Repr())
 
 	list.Append(15)
-	fmt.Println(list.PrintList())
+	fmt.Println(list.Repr())
 
-	list.Remove(1)
-	fmt.Println(list.PrintList())
+	list.Delete(1)
+	fmt.Println(list.Repr())
 
-	list.Remove(0)
-	fmt.Println(list.PrintList())
+	list.Delete(0)
+	fmt.Println(list.Repr())
 
-	list.Remove(0)
-	fmt.Println(list.PrintList())
+	list.Delete(0)
+	fmt.Println(list.Repr())
 
 }
 
@@ -73,11 +65,11 @@ func Example4() {
 	var list SinglyLinkedList = New()
 
 	list.Append(10)
-	fmt.Println(list.PrintList())
+	fmt.Println(list.Repr())
 
-	list.Push(5)
-	fmt.Println(list.PrintList())
+	list.Insert(5, 0)
+	fmt.Println(list.Repr())
 
 	list.Append(15)
-	fmt.Println(list.PrintList())
+	fmt.Println(list.Repr())
 }

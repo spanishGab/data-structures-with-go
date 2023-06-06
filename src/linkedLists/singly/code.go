@@ -21,7 +21,7 @@ func New() SinglyLinkedList {
 	}
 }
 
-func (list *SinglyLinkedList) Append(value int) {
+func (list *SinglyLinkedList) Insert(value int, pos int) {
 	var newNode Node = Node{data: value, next: nil}
 
 	list.length += 1
@@ -29,33 +29,8 @@ func (list *SinglyLinkedList) Append(value int) {
 	if list.head == nil {
 		list.head = &newNode
 		return
-	}
-
-	var iterator *Node = list.head
-
-	for iterator.next != nil {
-		iterator = iterator.next
-	}
-
-	iterator.next = &newNode
-}
-
-func (list *SinglyLinkedList) Push(value int) {
-	var newNode Node = Node{data: value, next: nil}
-
-	newNode.next = list.head
-
-	list.head = &newNode
-
-	list.length += 1
-}
-
-func (list *SinglyLinkedList) Insert(value int, pos int) {
-	var newNode Node = Node{data: value, next: nil}
-
-	list.length += 1
-
-	if list.head == nil {
+	} else if pos == 0 {
+		newNode.next = list.head
 		list.head = &newNode
 		return
 	}
@@ -71,39 +46,11 @@ func (list *SinglyLinkedList) Insert(value int, pos int) {
 	iterator.next = &newNode
 }
 
-func (list *SinglyLinkedList) Delete() {
-	if list.head == nil {
-		return
-	}
-
-	list.length -= 1
-	list.head = list.head.next
+func (list *SinglyLinkedList) Append(value int) {
+	list.Insert(value, list.length)
 }
 
-func (list *SinglyLinkedList) Pop() {
-	if list.head == nil {
-		return
-	}
-
-	list.length -= 1
-
-	if list.head.next == nil {
-		list.head = nil
-		return
-	}
-
-	var previousElement *Node
-	var currentElement *Node = list.head
-
-	for currentElement.next != nil {
-		previousElement = currentElement
-		currentElement = currentElement.next
-	}
-
-	previousElement.next = nil
-}
-
-func (list *SinglyLinkedList) Remove(pos int) {
+func (list *SinglyLinkedList) Delete(pos int) {
 	if list.head == nil {
 		return
 	}
@@ -131,6 +78,10 @@ func (list *SinglyLinkedList) Remove(pos int) {
 	previousElement.next = currentElement.next
 }
 
+func (list *SinglyLinkedList) Pop() {
+	list.Delete(list.length - 1)
+}
+
 func (list *SinglyLinkedList) Get(pos int) int {
 	var element *Node = list.head
 
@@ -141,10 +92,10 @@ func (list *SinglyLinkedList) Get(pos int) int {
 	return element.data
 }
 
-func (list *SinglyLinkedList) PrintList() string {
+func (list *SinglyLinkedList) Repr() string {
 	var iterator *Node = list.head
 
-	var listRepr string
+	var listRepr string = ""
 
 	listRepr = "length: " + strconv.FormatInt(int64(list.length), 10) + ", content: "
 	for iterator != nil {
