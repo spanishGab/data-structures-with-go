@@ -2,89 +2,82 @@ package singly
 
 import "fmt"
 
-
 func Example1() {
-	var list SinglyLinkedList = CreateEmptyList()
+	var list SinglyLinkedList = New()
 
-    Push(&list, 5)
-    PrintList(&list)
+	list.Push(5)
+	fmt.Println(list.PrintList())
 
-    Append(&list, 10)
-    PrintList(&list)
+	list.Append(10)
+	fmt.Println(list.PrintList())
 
-    Insert(&list, 15, 2)
-    PrintList(&list)
+	list.Insert(15, 2)
+	fmt.Println(list.PrintList())
 
-    var iterator *Node = list.head
+	var iterator *Node = list.head
 
-    for iterator != nil {
-        Delete(&list)
-        PrintList(&list)
+	for iterator != nil {
+		list.Delete()
+		fmt.Println(list.PrintList())
 
-        iterator = iterator.next
-    }
+		iterator = iterator.next
+	}
 }
 
 func Example2() {
-	var list SinglyLinkedList = CreateEmptyList()
+	var list SinglyLinkedList = New()
 
-    Insert(&list, 5, 0)
-    PrintList(&list)
+	list.Insert(5, 0)
+	fmt.Println(list.PrintList())
 
-    Append(&list, 10)
-    PrintList(&list)
+	list.Append(10)
+	fmt.Println(list.PrintList())
 
-    Append(&list, 15)
-    PrintList(&list)
+	list.Append(15)
+	fmt.Println(list.PrintList())
 
-    Pop(&list)
-    PrintList(&list)
+	list.Pop()
+	fmt.Println(list.PrintList())
 
-    Pop(&list)
-    PrintList(&list)
+	list.Pop()
+	fmt.Println(list.PrintList())
 
-    Pop(&list)
-    PrintList(&list)
+	list.Pop()
+	fmt.Println(list.PrintList())
 }
-
 
 func Example3() {
-	var list SinglyLinkedList = CreateEmptyList()
+	var list SinglyLinkedList = New()
 
-    Append(&list, 10)
-    PrintList(&list)
+	list.Append(10)
+	fmt.Println(list.PrintList())
 
-    Push(&list, 5)
-    PrintList(&list)
+	list.Push(5)
+	fmt.Println(list.PrintList())
 
-    Append(&list, 15)
-    PrintList(&list)
+	list.Append(15)
+	fmt.Println(list.PrintList())
 
-    Remove(&list, 1)
-    PrintList(&list)
+	list.Remove(1)
+	fmt.Println(list.PrintList())
 
-    Remove(&list, 0)
-    PrintList(&list)
+	list.Remove(0)
+	fmt.Println(list.PrintList())
 
-    Remove(&list, 0)
-    PrintList(&list)
+	list.Remove(0)
+	fmt.Println(list.PrintList())
 
 }
 
-
 func Example4() {
-	var list SinglyLinkedList = CreateEmptyList()
+	var list SinglyLinkedList = New()
 
-    Append(&list, 10)
-    PrintList(&list)
+	list.Append(10)
+	fmt.Println(list.PrintList())
 
-    Push(&list, 5)
-    PrintList(&list)
+	list.Push(5)
+	fmt.Println(list.PrintList())
 
-    Append(&list, 15)
-    PrintList(&list)
-
-    for i := 0; i < list.length; i++ {
-        fmt.Printf("Element at position %d: %d\n", i, SearchElementData(&list, i))
-    }
+	list.Append(15)
+	fmt.Println(list.PrintList())
 }
