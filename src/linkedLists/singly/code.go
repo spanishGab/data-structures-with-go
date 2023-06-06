@@ -92,6 +92,28 @@ func (list *SinglyLinkedList) Get(pos int) int {
 	return element.data
 }
 
+func (list *SinglyLinkedList) Sort() {
+	if list.head.next == nil {
+		return
+	}
+
+	var currentElement *Node = list.head
+	var index *Node
+	var aux int
+	for currentElement != nil {
+		index = currentElement.next
+		for index != nil {
+			if currentElement.data > index.data {
+				aux = index.data
+				index.data = currentElement.data
+				currentElement.data = aux
+			}
+			index = index.next
+		}
+		currentElement = currentElement.next
+	}
+}
+
 func (list *SinglyLinkedList) Repr() string {
 	var iterator *Node = list.head
 
