@@ -99,7 +99,25 @@ func (list *DoublyLinkedList) Get(pos int) int {
   return element.data
 }
 
-// TODO: Sort
+func (list *DoublyLinkedList) Sort() {
+  if list.head == nil || list.head.next == nil {
+    return
+  }
+
+  var key int
+  var previousElement *Node
+  var index *Node = list.head.next
+  for index != nil {
+    key = index.data
+    previousElement = index.prev
+    for previousElement != nil && key < previousElement.data {
+      previousElement.next.data = previousElement.data
+      previousElement.data = key // OTIMIZAR
+      previousElement = previousElement.prev
+    }
+    index = index.next
+  }
+}
 
 func (list *DoublyLinkedList) Repr() string {
 	var iterator *Node = list.head

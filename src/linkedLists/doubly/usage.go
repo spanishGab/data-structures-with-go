@@ -18,6 +18,9 @@ func Example1() {
 
   fmt.Println("Get:", list.Get(0), list.Get(1), list.Get(2))
 
+  list.Sort()
+	fmt.Println(list.Repr())
+
   for list.head != nil {
 		list.Delete(0)
 		fmt.Println(list.Repr())
