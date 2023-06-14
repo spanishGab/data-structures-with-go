@@ -1,6 +1,7 @@
 package main
 
 import (
+	"dsa/linkedLists/circular"
 	"dsa/linkedLists/doubly"
 	"dsa/linkedLists/singly"
 	"fmt"
@@ -50,8 +51,31 @@ func _doublyLinkedListExamples() {
 	fmt.Print("End Example 5\n\n")
 }
 
+func _circularLinkedListExamples() {
+	fmt.Println("Begin Example 1:")
+	circular.Example1()
+	fmt.Print("End Example 1\n\n")
+
+	// fmt.Println("Begin Example 2:")
+	// doubly.Example2()
+	// fmt.Print("End Example 2\n\n")
+
+	// fmt.Println("Begin Example 3:")
+	// doubly.Example3()
+	// fmt.Print("End Example 3\n\n")
+
+	// fmt.Println("Begin Example 4:")
+	// doubly.Example4()
+	// fmt.Print("End Example 4\n\n")
+
+	// fmt.Println("Begin Example 5:")
+	// doubly.Example5()
+	// fmt.Print("End Example 5\n\n")
+}
+
 func main() {
 	// use this space to execute some of the examples above
 	// _singlyLinkedListExamples()
-  _doublyLinkedListExamples()
+  // _doublyLinkedListExamples()
+  _circularLinkedListExamples()
 }
