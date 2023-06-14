@@ -38,7 +38,7 @@ func (list *SinglyLinkedList) Insert(value int, pos int) {
 	var iterator *Node = list.head
 
 	// zero indexed pos
-	for i := 0; i < pos-1; i++ {
+	for i := 1; i < pos; i++ {
 		iterator = iterator.next
 	}
 
