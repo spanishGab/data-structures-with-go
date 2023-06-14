@@ -14,6 +14,8 @@ func Example1() {
 	list.Insert(15, 0)
 	fmt.Println(list.Repr())
 
+  fmt.Println("Get:", list.Get(0), list.Get(1), list.Get(2))
+
 	list.Sort()
 	fmt.Println(list.Repr())
 
@@ -67,7 +69,6 @@ func Example3() {
 
 	list.Delete(0)
 	fmt.Println(list.Repr())
-
 }
 
 func Example4() {

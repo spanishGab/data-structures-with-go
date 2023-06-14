@@ -112,11 +112,30 @@ func (list *DoublyLinkedList) Sort() {
     previousElement = index.prev
     for previousElement != nil && key < previousElement.data {
       previousElement.next.data = previousElement.data
-      previousElement.data = key // OTIMIZAR
+      previousElement.data = key
       previousElement = previousElement.prev
     }
     index = index.next
   }
+}
+
+func (list *DoublyLinkedList) Reverse() {
+  if list.head == nil {
+    return
+  }
+
+  var index *Node = list.head
+  var aux *Node
+  for index.next != nil {
+    aux = index.prev
+    index.prev = index.next
+    index.next = aux
+    index = index.prev
+  }
+  aux = index.prev
+  index.prev = index.next
+  index.next = aux
+  list.head = index
 }
 
 func (list *DoublyLinkedList) Repr() string {
