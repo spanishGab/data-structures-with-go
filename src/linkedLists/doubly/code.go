@@ -65,8 +65,7 @@ func (list *DoublyLinkedList) Delete(pos int) {
   if list.head.next == nil {
     list.head = nil
     return
-  }
-  if pos == 0 {
+  } else if pos == 0 {
     list.head = list.head.next
     list.head.prev = nil
     return

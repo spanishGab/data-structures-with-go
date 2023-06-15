@@ -60,9 +60,7 @@ func (list *SinglyLinkedList) Delete(pos int) {
 	if list.head.next == nil {
 		list.head = nil
 		return
-	}
-
-	if pos == 0 {
+	} else if pos == 0 {
 		list.head = list.head.next
 		return
 	}
