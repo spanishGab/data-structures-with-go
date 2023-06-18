@@ -3,3 +3,5 @@ go 1.19
 use ./src/linkedLists
 
 use ./src/usage
+
+use ./src/stacks

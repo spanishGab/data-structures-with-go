@@ -4,6 +4,7 @@ import (
 	"dsa/linkedLists/circular"
 	"dsa/linkedLists/doubly"
 	"dsa/linkedLists/singly"
+	"dsa/stacks"
 	"fmt"
 )
 
@@ -73,9 +74,32 @@ func _circularLinkedListExamples() {
 	fmt.Print("End Example 5\n\n")
 }
 
+func _stackExamples() {
+	fmt.Println("Begin Example 1:")
+	stacks.Example1()
+	fmt.Print("End Example 1\n\n")
+
+	// fmt.Println("Begin Example 2:")
+	// circular.Example2()
+	// fmt.Print("End Example 2\n\n")
+
+	// fmt.Println("Begin Example 3:")
+	// circular.Example3()
+	// fmt.Print("End Example 3\n\n")
+
+	// fmt.Println("Begin Example 4:")
+	// circular.Example4()
+	// fmt.Print("End Example 4\n\n")
+
+	// fmt.Println("Begin Example 5:")
+	// circular.Example5()
+	// fmt.Print("End Example 5\n\n")
+}
+
 func main() {
 	// use this space to execute some of the examples above
 	// _singlyLinkedListExamples()
   // _doublyLinkedListExamples()
-  _circularLinkedListExamples()
+  // _circularLinkedListExamples()
+  _stackExamples()
 }
