@@ -109,6 +109,8 @@ func (list *CircularLinkedList) Get(pos int) int {
 
   if pos > list.length - 1 {
     panic("List index out of range")
+  } else if pos == list.length - 1 {
+    return list.tail.data
   }
 
   for i := 0; i < pos; i++ {
