@@ -77,11 +77,16 @@ func (list *CircularLinkedList) Delete(pos int) {
   list.length -= 1
 
   if pos == 0 {
+    if list.length == 0 {
+      list.head = nil
+      list.tail = nil
+      return
+    }
     list.head = list.head.next
     list.head.prev = list.tail
     list.tail.next = list.head
     return
-  } else if pos == list.length + 1 {
+  } else if pos == list.length {
     list.tail = list.tail.prev
     list.tail.next = list.head
     list.head.prev = list.tail
