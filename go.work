@@ -5,3 +5,5 @@ use ./src/linkedLists
 use ./src/usage
 
 use ./src/stacks
+
+use ./src/queues
