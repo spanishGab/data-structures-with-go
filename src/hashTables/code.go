@@ -1,5 +1,7 @@
 package hashtables
 
+import "math"
+
 type Student struct {
 	id     int
 	name   string
@@ -14,6 +16,8 @@ type HashTable struct {
 	items    []*Student
 }
 
+const hashMultiplicationFactor float64 = 0.618
+
 // Remember to use a prime number to capacity,
 // it reduces the chances of colisions
 func New(capacity int) HashTable {
@@ -26,4 +30,19 @@ func New(capacity int) HashTable {
 		hash.items[i] = nil
 	}
 	return hash
+}
+
+func getStringKeyValue(key string) int {
+  keyValue := 7
+  keyCharacters := []rune(key)
+  for i := 0; i < len(key); i++ {
+    keyValue = 31 * keyValue + int(keyCharacters[i])
+  }
+  return keyValue
+}
+
+
+func (table HashTable) hashByMultiplication(keyValue int) int {
+  keyRemainder := math.Mod(float64(keyValue) * hashMultiplicationFactor, 1)
+  return int(float64(table.capacity) * keyRemainder)
 }
