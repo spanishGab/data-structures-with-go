@@ -1,6 +1,7 @@
 package main
 
 import (
+	hashtables "dsa/hashTables"
 	"dsa/linkedLists/circular"
 	"dsa/linkedLists/doubly"
 	"dsa/linkedLists/singly"
@@ -95,11 +96,21 @@ func _queueExamples() {
 	fmt.Print("End Example 2\n\n")
 }
 
+func _hashTableExamples() {
+	fmt.Println("Begin Example 1:")
+	hashtables.Example1()
+	fmt.Print("End Example 1\n\n")
+
+	// fmt.Println("Begin Example 2:")
+	// queues.Example2()
+	// fmt.Print("End Example 2\n\n")
+}
+
 func main() {
 	// use this space to execute some of the examples above
 	// _singlyLinkedListExamples()
-  // _doublyLinkedListExamples()
-  // _circularLinkedListExamples()
-  // _stackExamples()
-  _queueExamples()
+	// _doublyLinkedListExamples()
+	// _circularLinkedListExamples()
+	// _stackExamples()
+	_hashTableExamples()
 }
