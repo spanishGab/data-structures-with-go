@@ -1,39 +1,31 @@
 package hashtables
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 func Example1() {
 	var table HashTable = New(7)
 
-	table.Insert("He is", Song{
-		name:            "He is",
-		artist:          "Ghost",
-		album:           "Meliora",
-		durationMinutes: 253,
-		year:            2015,
+	table.Insert(666, Song{
+		Id:              666,
+		Name:            "He is",
+		Artist:          "Ghost",
+		Album:           "Meliora",
+		DurationMinutes: 253,
+		Year:            2015,
 	})
-	table.Insert("Spirit", Song{
-		name:            "Spirit",
-		artist:          "Ghost",
-		album:           "Meliora",
-		durationMinutes: 315,
-		year:            2015,
+	table.Insert(667, Song{
+		Id:              667,
+		Name:            "Spirit",
+		Artist:          "Ghost",
+		Album:           "Meliora",
+		DurationMinutes: 315,
+		Year:            2015,
 	})
-	fmt.Println(table, table.length)
+	fmt.Println(table.Repr())
 
-	// queue.Enqueue(101)
-	// fmt.Println(queue.Repr())
-
-	// queue.Enqueue(102)
-	// fmt.Println(queue.Repr())
-
-	// queue.Enqueue(103)
-	// fmt.Println(queue.Repr())
-
-	// fmt.Println("Peek:", queue.Peek())
-
-	// for !queue.isEmpty() {
-	// 	fmt.Println("Popping", queue.Dequeue())
-	// 	fmt.Println(queue.Repr())
-	// }
+	heIsSong, _ := json.MarshalIndent(table.Get(666), "", "  ")
+	fmt.Println(string(heIsSong))
 }

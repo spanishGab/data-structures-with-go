@@ -100,10 +100,6 @@ func _hashTableExamples() {
 	fmt.Println("Begin Example 1:")
 	hashtables.Example1()
 	fmt.Print("End Example 1\n\n")
-
-	// fmt.Println("Begin Example 2:")
-	// queues.Example2()
-	// fmt.Print("End Example 2\n\n")
 }
 
 func main() {
