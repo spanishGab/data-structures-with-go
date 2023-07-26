@@ -9,3 +9,5 @@ use ./src/stacks
 use ./src/queues
 
 use ./src/hashTables
+
+use ./src/trees
