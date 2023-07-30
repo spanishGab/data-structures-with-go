@@ -7,6 +7,7 @@ import (
 	"dsa/linkedLists/singly"
 	"dsa/queues"
 	"dsa/stacks"
+	binarysearchtree "dsa/trees/binarySearchTree"
 	"fmt"
 )
 
@@ -102,11 +103,18 @@ func _hashTableExamples() {
 	fmt.Print("End Example 1\n\n")
 }
 
+func _binarySearchTreeExamples() {
+  fmt.Println("Begin Example 1:")
+	binarysearchtree.Example1()
+	fmt.Print("End Example 1\n\n")
+}
+
 func main() {
 	// use this space to execute some of the examples above
 	// _singlyLinkedListExamples()
 	// _doublyLinkedListExamples()
 	// _circularLinkedListExamples()
 	// _stackExamples()
-	_hashTableExamples()
+	// _hashTableExamples()
+  _binarySearchTreeExamples()
 }
