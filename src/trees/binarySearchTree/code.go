@@ -21,7 +21,7 @@ func (tree *BinarySearchTree) IsEmpty() bool {
 }
 
 func isEmptyNode(root *node) bool {
-  return root == nil
+	return root == nil
 }
 
 func (tree *BinarySearchTree) Height(root *node) uint {
@@ -77,13 +77,59 @@ func (tree *BinarySearchTree) Insert(value int) {
 	}
 }
 
+func searchRightmostNode(n *node) *node {
+	var lastNode *node = n
+	var currentNode *node = n.left
+	for currentNode.right != nil {
+		lastNode = currentNode
+		currentNode = currentNode.right
+	}
+	lastNode.right = nil
+	return currentNode
+}
+
+func (tree *BinarySearchTree) Remove(value int) {
+	if tree.IsEmpty() {
+		return
+	}
+
+	var lastNode *node = nil
+	var currentNode *node = tree.root
+	for currentNode != nil {
+		lastNode = currentNode
+		if value < currentNode.data {
+			currentNode = currentNode.left
+		} else if value > currentNode.data {
+			currentNode = currentNode.right
+		}
+		// TODO: Consertar loop infinito
+		if value != currentNode.data {
+			continue
+		}
+		if currentNode.right != nil {
+			if currentNode.left != nil {
+				if lastNode.left == currentNode {
+					lastNode.left = searchRightmostNode(currentNode)
+				} else {
+					lastNode.right = searchRightmostNode(currentNode)
+				}
+			}
+			lastNode.right = currentNode.right
+		} else if currentNode.left != nil {
+			lastNode.left = currentNode.left
+		} else {
+			currentNode = nil
+		}
+	}
+}
+
 func (tree *BinarySearchTree) Repr(root *node) string {
 	var repr string = ""
 	if isEmptyNode(root) {
 		return ""
 	}
-  repr += tree.Repr(root.left)
+	repr += tree.Repr(root.left)
 	repr += fmt.Sprintf("/%d\\", root.data)
-  repr += tree.Repr(root.right)
+	repr += tree.Repr(root.right)
 	return repr
 }
