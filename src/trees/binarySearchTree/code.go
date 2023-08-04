@@ -77,7 +77,7 @@ func (tree *BinarySearchTree) Insert(value int) {
 	}
 }
 
-func searchRightmostNode(n *node) *node {
+func searchLeftTreeRightmostNode(n *node) *node {
 	var lastNode *node = n
 	var currentNode *node = n.left
 	for currentNode.right != nil {
@@ -95,30 +95,36 @@ func (tree *BinarySearchTree) Remove(value int) {
 
 	var lastNode *node = nil
 	var currentNode *node = tree.root
-	for currentNode != nil {
+	for value != currentNode.data {
 		lastNode = currentNode
 		if value < currentNode.data {
 			currentNode = currentNode.left
 		} else if value > currentNode.data {
 			currentNode = currentNode.right
 		}
-		// TODO: Consertar loop infinito
-		if value != currentNode.data {
-			continue
-		}
-		if currentNode.right != nil {
-			if currentNode.left != nil {
-				if lastNode.left == currentNode {
-					lastNode.left = searchRightmostNode(currentNode)
-				} else {
-					lastNode.right = searchRightmostNode(currentNode)
-				}
+	}
+	if currentNode == tree.root {
+		tree.root = searchLeftTreeRightmostNode(currentNode)
+		tree.root.left = currentNode.left
+		tree.root.right = currentNode.right
+	} else if currentNode.right != nil {
+		if currentNode.left != nil {
+			if lastNode.left == currentNode {
+				lastNode.left = searchLeftTreeRightmostNode(currentNode)
+				return
+			} else {
+				lastNode.right = searchLeftTreeRightmostNode(currentNode)
+				return
 			}
-			lastNode.right = currentNode.right
-		} else if currentNode.left != nil {
-			lastNode.left = currentNode.left
+		}
+		lastNode.right = currentNode.right
+	} else if currentNode.left != nil {
+		lastNode.left = currentNode.left
+	} else {
+		if lastNode.left == currentNode {
+			lastNode.left = nil
 		} else {
-			currentNode = nil
+			lastNode.right = nil
 		}
 	}
 }

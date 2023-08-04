@@ -26,5 +26,11 @@ func Example1() {
 
 	tree.Remove(5)
 	fmt.Println("Tree:", tree.Repr(tree.root))
+
+	tree.Remove(-5)
+	fmt.Println("Tree:", tree.Repr(tree.root))
+
+	tree.Remove(10)
+	fmt.Println("Tree:", tree.Repr(tree.root))
 	fmt.Println("Height:", tree.Height(tree.root), "Total Nodes:", tree.TotalNodes(tree.root))
 }
