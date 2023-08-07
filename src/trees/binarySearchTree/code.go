@@ -62,7 +62,7 @@ func (tree *BinarySearchTree) Insert(value int) {
 	for currentNode != nil {
 		lastNode = currentNode
 		if value == currentNode.data {
-			return // there can be no repeated values
+			panic("A binary search tree can not have repeated values.")
 		}
 		if value < currentNode.data {
 			currentNode = currentNode.left
@@ -77,7 +77,7 @@ func (tree *BinarySearchTree) Insert(value int) {
 	}
 }
 
-func searchLeftTreeRightmostNode(n *node) *node {
+func findReplaceableElement(n *node) *node {
 	var lastNode *node = n
 	var currentNode *node = n.left
 	for currentNode.right != nil {
@@ -103,34 +103,59 @@ func (tree *BinarySearchTree) Remove(value int) {
 			currentNode = currentNode.right
 		}
 	}
-	if currentNode == tree.root {
-		tree.root = searchLeftTreeRightmostNode(currentNode)
-		tree.root.left = currentNode.left
-		tree.root.right = currentNode.right
-	} else if currentNode.right != nil {
-		if currentNode.left != nil {
-			if lastNode.left == currentNode {
-				lastNode.left = searchLeftTreeRightmostNode(currentNode)
+	if currentNode == tree.root { // node to remove is root
+    if (currentNode.left != nil) { // root has a left child
+      tree.root = findReplaceableElement(currentNode)
+      tree.root.left = currentNode.left
+      tree.root.right = currentNode.right
+    } else { // root has no left child
+      tree.root = tree.root.right
+    }
+  } else if currentNode.right != nil { // node to remove has a right child
+		if currentNode.left != nil { // node to remove has a left child
+			if lastNode.left == currentNode { // node to remove is a left child
+				lastNode.left = findReplaceableElement(currentNode)
 				return
-			} else {
-				lastNode.right = searchLeftTreeRightmostNode(currentNode)
+			} else { // node to remove is a right child
+				lastNode.right = findReplaceableElement(currentNode)
 				return
 			}
 		}
 		lastNode.right = currentNode.right
-	} else if currentNode.left != nil {
+	} else if currentNode.left != nil { // node to remove has a left child only
 		lastNode.left = currentNode.left
-	} else {
-		if lastNode.left == currentNode {
+	} else { // node to remove has no child
+		if lastNode.left == currentNode { // node to remove is a left child
 			lastNode.left = nil
-		} else {
+		} else { // node to remove is a right child
 			lastNode.right = nil
 		}
 	}
 }
 
+func (tree *BinarySearchTree) Has(value int) bool {
+  if tree.IsEmpty() {
+    return false
+  }
+
+  var currentNode *node = tree.root
+  for currentNode != nil {
+    if currentNode.data == value {
+      return true
+    } else if currentNode.data < value {
+      currentNode = currentNode.left
+    } else {
+      currentNode = currentNode.right
+    }
+  }
+  return false
+}
+
 func (tree *BinarySearchTree) Repr(root *node) string {
 	var repr string = ""
+  if tree.IsEmpty() {
+    return "Tree is empty!"
+  }
 	if isEmptyNode(root) {
 		return ""
 	}
