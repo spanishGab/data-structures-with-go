@@ -1,4 +1,4 @@
-package binarysearchtree
+package binarytree
 
 import "fmt"
 
@@ -8,15 +8,15 @@ type node struct {
 	right *node
 }
 
-type BinarySearchTree struct {
+type BinaryTree struct {
 	root *node
 }
 
-func New() BinarySearchTree {
-	return BinarySearchTree{root: nil}
+func New() BinaryTree {
+	return BinaryTree{root: nil}
 }
 
-func (tree *BinarySearchTree) IsEmpty() bool {
+func (tree *BinaryTree) IsEmpty() bool {
 	return tree.root == nil
 }
 
@@ -24,7 +24,7 @@ func isEmptyNode(root *node) bool {
 	return root == nil
 }
 
-func (tree *BinarySearchTree) Height(root *node) uint {
+func (tree *BinaryTree) Height(root *node) uint {
 	if isEmptyNode(root) {
 		return 0
 	}
@@ -37,7 +37,7 @@ func (tree *BinarySearchTree) Height(root *node) uint {
 	return rightHeight + 1
 }
 
-func (tree *BinarySearchTree) TotalNodes(root *node) uint {
+func (tree *BinaryTree) TotalNodes(root *node) uint {
 	if isEmptyNode(root) {
 		return 0
 	}
@@ -46,7 +46,7 @@ func (tree *BinarySearchTree) TotalNodes(root *node) uint {
 	return leftHeight + rightHeight + 1
 }
 
-func (tree *BinarySearchTree) Insert(value int) {
+func (tree *BinaryTree) Insert(value int) {
 	var newNode node = node{
 		data:  value,
 		left:  nil,
@@ -62,7 +62,7 @@ func (tree *BinarySearchTree) Insert(value int) {
 	for currentNode != nil {
 		lastNode = currentNode
 		if value == currentNode.data {
-			panic("A binary search tree can not have repeated values.")
+			panic("A binary tree can not have repeated values.")
 		}
 		if value < currentNode.data {
 			currentNode = currentNode.left
@@ -88,7 +88,7 @@ func findReplaceableElement(n *node) *node {
 	return currentNode
 }
 
-func (tree *BinarySearchTree) Remove(value int) {
+func (tree *BinaryTree) Remove(value int) {
 	if tree.IsEmpty() {
 		return
 	}
@@ -133,7 +133,7 @@ func (tree *BinarySearchTree) Remove(value int) {
 	}
 }
 
-func (tree *BinarySearchTree) Has(value int) bool {
+func (tree *BinaryTree) Has(value int) bool {
   if tree.IsEmpty() {
     return false
   }
@@ -151,7 +151,7 @@ func (tree *BinarySearchTree) Has(value int) bool {
   return false
 }
 
-func (tree *BinarySearchTree) Repr(root *node) string {
+func (tree *BinaryTree) Repr(root *node) string {
 	var repr string = ""
   if tree.IsEmpty() {
     return "Tree is empty!"

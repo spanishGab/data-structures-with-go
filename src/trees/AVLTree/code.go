@@ -93,11 +93,11 @@ func (tree *AVLTree) Repr(root *node) string {
 	return repr
 }
 
-// This methdod differs from BinarySearchTree as it balances the tree
+// This methdod differs from BinaryTree as it balances the tree
 // and then inserts a new item on it
 func (tree *AVLTree) Insert(value int) {}
 
-// This methdod differs from BinarySearchTree as it balances the tree
+// This methdod differs from BinaryTree as it balances the tree
 // and then removes an item from it
 func (tree *AVLTree) Remove(value int) {}
 

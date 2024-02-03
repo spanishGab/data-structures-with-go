@@ -1,9 +1,9 @@
-package binarysearchtree
+package binarytree
 
 import "fmt"
 
 func Example1() {
-	var tree BinarySearchTree = New()
+	var tree BinaryTree = New()
 
 	tree.Insert(5)
 	fmt.Println("Tree:", tree.Repr(tree.root))
