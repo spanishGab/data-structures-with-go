@@ -6,7 +6,7 @@ import (
 
 type node struct {
 	data   int
-  height uint
+  height int
 	left   *node
 	right  *node
 }
@@ -101,6 +101,31 @@ func (tree *AVLTree) Insert(value int) {}
 // and then removes an item from it
 func (tree *AVLTree) Remove(value int) {}
 
-func balanceFactor(n *node) uint {
+func biggest(a, b int) int {
+  if a > b {
+    return a
+  }
+  return b
+}
+
+func getNodeHeight(n *node) int {
+  if n == nil {
+    return -1
+  }
+  return n.height
+}
+
+func balanceFactor(n *node) int {
   return n.left.height - n.right.height
+}
+
+
+func (rootNode *node) rotateRight() {
+  var newNode node = node{}
+  newNode = *rootNode.left
+  rootNode.left = newNode.right
+  newNode.right = rootNode
+  rootNode.height = biggest(getNodeHeight(rootNode.left), getNodeHeight((rootNode.right))) + 1
+  newNode.height = biggest((getNodeHeight(newNode.left)), rootNode.height) + 1
+  *rootNode = newNode
 }
