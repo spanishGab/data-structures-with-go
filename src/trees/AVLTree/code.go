@@ -95,30 +95,46 @@ func (tree *AVLTree) Repr(root *node) string {
 
 // This methdod differs from BinaryTree as it balances the tree
 // and then inserts a new item on it
-func (tree *AVLTree) Insert(value int) {}
+func (rootNode *node) Insert(value int) {
+  var newNode node = node{data: value}
+  if rootNode == nil {
+    rootNode = &newNode
+    return
+  }
+  if rootNode.data == value {
+    panic("A binary tree can not have repeated values.")
+  }
+
+  var currentNode *node = rootNode
+  if value < currentNode.data {
+    currentNode.left.Insert(value)
+    if calculateBalanceFactor(currentNode) >= 2 {
+      if value < rootNode.left.data {
+        rootNode.rotateRight()
+      } else {
+        rootNode.rotateRightLeft()
+      }
+    }
+  } else {
+    currentNode.right.Insert(value)
+    if calculateBalanceFactor(currentNode) >= 2 {
+      if value > rootNode.right.data {
+        rootNode.rotateLeft()
+      } else {
+        rootNode.rotateLeftRight()
+      }
+    }
+  }
+  currentNode.height = biggest(getNodeHeight(currentNode.left), getNodeHeight(currentNode.right)) + 1
+}
 
 // This methdod differs from BinaryTree as it balances the tree
 // and then removes an item from it
-func (tree *AVLTree) Remove(value int) {}
+func (rootNode *node) Remove(value int) {}
 
-func biggest(a, b int) int {
-  if a > b {
-    return a
-  }
-  return b
+func calculateBalanceFactor(n *node) int {
+  return getAbsValue(getNodeHeight(n.left), getNodeHeight(n.right))
 }
-
-func getNodeHeight(n *node) int {
-  if n == nil {
-    return -1
-  }
-  return n.height
-}
-
-func balanceFactor(n *node) int {
-  return n.left.height - n.right.height
-}
-
 
 func (rootNode *node) rotateRight() {
   var newNode node = node{}
@@ -128,4 +144,45 @@ func (rootNode *node) rotateRight() {
   rootNode.height = biggest(getNodeHeight(rootNode.left), getNodeHeight((rootNode.right))) + 1
   newNode.height = biggest((getNodeHeight(newNode.left)), rootNode.height) + 1
   *rootNode = newNode
+}
+
+func (rootNode *node) rotateLeft() {
+  var newNode node = node{}
+  newNode = *rootNode.right
+  rootNode.right = newNode.left
+  newNode.left = rootNode
+  rootNode.height = biggest(getNodeHeight(rootNode.right), getNodeHeight((rootNode.left))) + 1
+  newNode.height = biggest((getNodeHeight(newNode.right)), rootNode.height) + 1
+  *rootNode = newNode
+}
+
+func (rootNode *node) rotateRightLeft() {
+  rootNode.left.rotateLeft()
+  rootNode.rotateRight()
+}
+
+func (rootNode *node) rotateLeftRight() {
+  rootNode.right.rotateRight()
+  rootNode.rotateLeft()
+}
+
+func getNodeHeight(n *node) int {
+  if n == nil {
+    return 0
+  }
+  return n.height
+}
+
+func biggest(a, b int) int {
+  if a > b {
+    return a
+  }
+  return b
+}
+
+func getAbsValue(a, b int) int {
+  if a > b {
+    return a - b
+  }
+  return b - a
 }
