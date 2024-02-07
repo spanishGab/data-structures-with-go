@@ -50,15 +50,14 @@ func (tree *AVLTree) TotalNodes(root *node) uint {
 }
 
 
-func findReplaceableElement(n *node) *node {
+func findLowestElement(n *node) *node {
 	var lastNode *node = n
 	var currentNode *node = n.left
-	for currentNode.right != nil {
+	for currentNode != nil {
     lastNode = currentNode
-		currentNode = currentNode.right
+		currentNode = currentNode.left
 	}
-	lastNode.right = nil
-	return currentNode
+	return lastNode
 }
 
 func (tree *AVLTree) Has(value int) bool {
@@ -130,7 +129,42 @@ func (rootNode *node) Insert(value int) {
 
 // This methdod differs from BinaryTree as it balances the tree
 // and then removes an item from it
-func (rootNode *node) Remove(value int) {}
+func (rootNode *node) Remove(value int) {
+  if rootNode == nil {
+    return
+  }
+
+  if value < rootNode.data {
+    rootNode.left.Remove(value)
+    if calculateBalanceFactor(rootNode) >= 2 {
+      if getNodeHeight(rootNode.right.left) <= getNodeHeight(rootNode.right.right) {
+        rootNode.rotateLeft()
+      } else {
+        rootNode.rotateLeftRight()
+      }
+    }
+  } else if value > rootNode.data {
+    rootNode.right.Remove(value)
+    if calculateBalanceFactor(rootNode) >= 2 {
+      if getNodeHeight(rootNode.left.left) <= getNodeHeight(rootNode.left.right) {
+        rootNode.rotateRight()
+      } else {
+        rootNode.rotateRightLeft()
+      }
+    }
+  } else if value == rootNode.data {
+    if rootNode.left == nil {
+      rootNode = rootNode.right
+    } else if rootNode.right == nil {
+      rootNode = rootNode.left
+    } else {
+      var lowestNode *node = findLowestElement(rootNode)
+      rootNode.data = lowestNode.data
+      rootNode.right.Remove(rootNode.data)
+    }
+  }
+  rootNode.height = biggest(rootNode.left.data, rootNode.right.data) + 1
+}
 
 func calculateBalanceFactor(n *node) int {
   return getAbsValue(getNodeHeight(n.left), getNodeHeight(n.right))
