@@ -7,6 +7,7 @@ import (
 	"dsa/linkedLists/singly"
 	"dsa/queues"
 	"dsa/stacks"
+	avltree "dsa/trees/AVLTree"
 	binarytree "dsa/trees/binaryTree"
 	"fmt"
 )
@@ -109,6 +110,12 @@ func _BinaryTreeExamples() {
 	fmt.Print("End Example 1\n\n")
 }
 
+func _AVLTreeExamples() {
+  fmt.Println("Begin Example 1:")
+	avltree.Example1()
+	fmt.Print("End Example 1\n\n")
+}
+
 func main() {
 	// use this space to execute some of the examples above
 	// _singlyLinkedListExamples()
@@ -116,5 +123,6 @@ func main() {
 	// _circularLinkedListExamples()
 	// _stackExamples()
 	// _hashTableExamples()
-  _BinaryTreeExamples()
+  // _BinaryTreeExamples()
+  _AVLTreeExamples()
 }

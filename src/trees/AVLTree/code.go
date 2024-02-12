@@ -49,17 +49,6 @@ func (tree *AVLTree) TotalNodes(root *node) uint {
 	return leftHeight + rightHeight + 1
 }
 
-
-func findLowestElement(n *node) *node {
-	var lastNode *node = n
-	var currentNode *node = n.left
-	for currentNode != nil {
-    lastNode = currentNode
-		currentNode = currentNode.left
-	}
-	return lastNode
-}
-
 func (tree *AVLTree) Has(value int) bool {
   if tree.IsEmpty() {
     return false
@@ -92,117 +81,143 @@ func (tree *AVLTree) Repr(root *node) string {
 	return repr
 }
 
-// This methdod differs from BinaryTree as it balances the tree
-// and then inserts a new item on it
-func (rootNode *node) Insert(value int) {
-  var newNode node = node{data: value}
-  if rootNode == nil {
-    rootNode = &newNode
+func (tree *AVLTree) Insert(value int) {
+  if tree.IsEmpty() {
+    tree.root = &node{data: value}
     return
   }
-  if rootNode.data == value {
+  tree.root = tree.root.insertNode(value)
+}
+
+func (tree *AVLTree) Remove(value int) {
+  if tree.IsEmpty() {
+    return
+  }
+  tree.root = tree.root.removeNode(value)
+}
+
+// This methdod differs from BinaryTree as it balances the tree
+// and then inserts a new item on it
+func (currentNode *node) insertNode(value int) *node {
+  if currentNode == nil {
+    return &node{data: value}
+  }
+  if currentNode.data == value {
     panic("A binary tree can not have repeated values.")
   }
 
-  var currentNode *node = rootNode
   if value < currentNode.data {
-    currentNode.left.Insert(value)
-    if calculateBalanceFactor(currentNode) >= 2 {
-      if value < rootNode.left.data {
-        rootNode.rotateRight()
+    currentNode.left = currentNode.left.insertNode(value)
+    if currentNode.calculateBalanceFactor() >= 2 {
+      if value < currentNode.left.data {
+        currentNode = currentNode.rotateRight()
       } else {
-        rootNode.rotateRightLeft()
+        currentNode = currentNode.rotateRightLeft()
       }
     }
   } else {
-    currentNode.right.Insert(value)
-    if calculateBalanceFactor(currentNode) >= 2 {
-      if value > rootNode.right.data {
-        rootNode.rotateLeft()
+    currentNode.right = currentNode.right.insertNode(value)
+    if currentNode.calculateBalanceFactor() >= 2 {
+      if value > currentNode.right.data {
+        currentNode = currentNode.rotateLeft()
       } else {
-        rootNode.rotateLeftRight()
+        currentNode = currentNode.rotateLeftRight()
       }
     }
   }
   currentNode.height = biggest(getNodeHeight(currentNode.left), getNodeHeight(currentNode.right)) + 1
+  return currentNode
 }
 
 // This methdod differs from BinaryTree as it balances the tree
 // and then removes an item from it
-func (rootNode *node) Remove(value int) {
-  if rootNode == nil {
-    return
+func (currentNode *node) removeNode(value int) *node {
+  if currentNode == nil {
+    return nil
   }
 
-  if value < rootNode.data {
-    rootNode.left.Remove(value)
-    if calculateBalanceFactor(rootNode) >= 2 {
-      if getNodeHeight(rootNode.right.left) <= getNodeHeight(rootNode.right.right) {
-        rootNode.rotateLeft()
+  if value < currentNode.data {
+    currentNode.left = currentNode.left.removeNode(value)
+    if currentNode.calculateBalanceFactor() >= 2 {
+      if getNodeHeight(currentNode.right.left) <= getNodeHeight(currentNode.right.right) {
+        currentNode = currentNode.rotateLeft()
       } else {
-        rootNode.rotateLeftRight()
+        currentNode = currentNode.rotateLeftRight()
       }
     }
-  } else if value > rootNode.data {
-    rootNode.right.Remove(value)
-    if calculateBalanceFactor(rootNode) >= 2 {
-      if getNodeHeight(rootNode.left.left) <= getNodeHeight(rootNode.left.right) {
-        rootNode.rotateRight()
+  } else if value > currentNode.data {
+    currentNode.right = currentNode.right.removeNode(value)
+    if currentNode.calculateBalanceFactor() >= 2 {
+      if getNodeHeight(currentNode.left.left) <= getNodeHeight(currentNode.left.right) {
+        currentNode = currentNode.rotateRight()
       } else {
-        rootNode.rotateRightLeft()
+        currentNode = currentNode.rotateRightLeft()
       }
     }
-  } else if value == rootNode.data {
-    if rootNode.left == nil {
-      rootNode = rootNode.right
-    } else if rootNode.right == nil {
-      rootNode = rootNode.left
+  } else if value == currentNode.data {
+    if currentNode.left == nil {
+      currentNode = currentNode.right
+    } else if currentNode.right == nil {
+      currentNode = currentNode.left
     } else {
-      var lowestNode *node = findLowestElement(rootNode)
-      rootNode.data = lowestNode.data
-      rootNode.right.Remove(rootNode.data)
+      var lowestNode *node = currentNode.findLowestElement()
+      currentNode.data = lowestNode.data
+      currentNode.right = currentNode.right.removeNode(currentNode.data)
     }
   }
-  rootNode.height = biggest(rootNode.left.data, rootNode.right.data) + 1
+  if currentNode != nil {
+    currentNode.height = biggest(getNodeHeight(currentNode.left), getNodeHeight(currentNode.right)) + 1
+  }
+  return currentNode
 }
 
-func calculateBalanceFactor(n *node) int {
-  return getAbsValue(getNodeHeight(n.left), getNodeHeight(n.right))
+func (n *node) findLowestElement() *node {
+	var lastNode *node = n
+	var currentNode *node = n.left
+	for currentNode != nil {
+    lastNode = currentNode
+		currentNode = currentNode.left
+	}
+	return lastNode
 }
 
-func (rootNode *node) rotateRight() {
+func (n *node) calculateBalanceFactor() int {
+  return absSubtratcion(getNodeHeight(n.left), getNodeHeight(n.right))
+}
+
+func (rootNode *node) rotateRight() *node {
   var newNode node = node{}
   newNode = *rootNode.left
   rootNode.left = newNode.right
   newNode.right = rootNode
   rootNode.height = biggest(getNodeHeight(rootNode.left), getNodeHeight((rootNode.right))) + 1
   newNode.height = biggest((getNodeHeight(newNode.left)), rootNode.height) + 1
-  *rootNode = newNode
+  return &newNode
 }
 
-func (rootNode *node) rotateLeft() {
+func (rootNode *node) rotateLeft() *node {
   var newNode node = node{}
   newNode = *rootNode.right
   rootNode.right = newNode.left
   newNode.left = rootNode
   rootNode.height = biggest(getNodeHeight(rootNode.right), getNodeHeight((rootNode.left))) + 1
   newNode.height = biggest((getNodeHeight(newNode.right)), rootNode.height) + 1
-  *rootNode = newNode
+  return &newNode
 }
 
-func (rootNode *node) rotateRightLeft() {
-  rootNode.left.rotateLeft()
-  rootNode.rotateRight()
+func (rootNode *node) rotateRightLeft() *node {
+  rootNode.left = rootNode.left.rotateLeft()
+  return rootNode.rotateRight()
 }
 
-func (rootNode *node) rotateLeftRight() {
-  rootNode.right.rotateRight()
-  rootNode.rotateLeft()
+func (rootNode *node) rotateLeftRight() *node {
+  rootNode.right = rootNode.right.rotateRight()
+  return rootNode.rotateLeft()
 }
 
 func getNodeHeight(n *node) int {
   if n == nil {
-    return 0
+    return -1
   }
   return n.height
 }
@@ -214,7 +229,7 @@ func biggest(a, b int) int {
   return b
 }
 
-func getAbsValue(a, b int) int {
+func absSubtratcion(a, b int) int {
   if a > b {
     return a - b
   }
