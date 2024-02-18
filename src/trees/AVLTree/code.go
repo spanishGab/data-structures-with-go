@@ -23,12 +23,12 @@ func (tree *AVLTree) IsEmpty() bool {
 	return tree.root == nil
 }
 
-func isEmptyNode(root *node) bool {
-	return root == nil
+func (n *node) isEmptyNode() bool {
+	return n == nil
 }
 
 func (tree *AVLTree) Height(root *node) uint {
-	if isEmptyNode(root) {
+	if root.isEmptyNode() {
 		return 0
 	}
 	var leftHeight uint = tree.Height(root.left)
@@ -41,7 +41,7 @@ func (tree *AVLTree) Height(root *node) uint {
 }
 
 func (tree *AVLTree) TotalNodes(root *node) uint {
-	if isEmptyNode(root) {
+	if root.isEmptyNode() {
 		return 0
 	}
 	var leftHeight uint = tree.TotalNodes(root.left)
@@ -72,7 +72,7 @@ func (tree *AVLTree) Repr(root *node) string {
   if tree.IsEmpty() {
     return "Tree is empty!"
   }
-	if isEmptyNode(root) {
+	if root.isEmptyNode() {
 		return ""
 	}
 	repr += tree.Repr(root.left)
@@ -160,9 +160,9 @@ func (currentNode *node) removeNode(value int) *node {
     } else if currentNode.right == nil {
       currentNode = currentNode.left
     } else {
-      var lowestNode *node = currentNode.findLowestElement()
-      currentNode.data = lowestNode.data
-      currentNode.right = currentNode.right.removeNode(currentNode.data)
+      newNodeStructure, lowestValue := currentNode.right.findAndDeleteLowestElement()
+      currentNode.right = newNodeStructure
+      currentNode.data = lowestValue
     }
   }
   if currentNode != nil {
@@ -171,14 +171,23 @@ func (currentNode *node) removeNode(value int) *node {
   return currentNode
 }
 
-func (n *node) findLowestElement() *node {
-	var lastNode *node = n
+func (n *node) findAndDeleteLowestElement() (*node, int){
+	if n.left.isEmptyNode() {
+    var lowestValue = n.data
+    if n.right.isEmptyNode() {
+      return nil, lowestValue
+    }
+    return n.right, lowestValue
+  }
+
+  var lastNode *node = n
 	var currentNode *node = n.left
-	for currentNode != nil {
+	for currentNode.left != nil {
     lastNode = currentNode
 		currentNode = currentNode.left
 	}
-	return lastNode
+  lastNode.left = nil
+	return n, currentNode.data
 }
 
 func (n *node) calculateBalanceFactor() int {

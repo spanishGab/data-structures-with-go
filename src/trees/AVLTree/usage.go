@@ -21,6 +21,10 @@ func Example1() {
 	fmt.Println("Tree:", tree.Repr(tree.root))
   fmt.Println("Root:", tree.root.data)
 
+  tree.Insert(17)
+	fmt.Println("Tree:", tree.Repr(tree.root))
+  fmt.Println("Root:", tree.root.data)
+
 	tree.Insert(-5)
 	fmt.Println("Tree:", tree.Repr(tree.root))
 	fmt.Println("Root:", tree.root.data)
@@ -32,6 +36,10 @@ func Example1() {
   tree.Insert(6)
 	fmt.Println("Tree:", tree.Repr(tree.root))
 	fmt.Println("Root:", tree.root.data)
+
+  tree.Insert(21)
+	fmt.Println("Tree:", tree.Repr(tree.root))
+  fmt.Println("Root:", tree.root.data)
 
 	fmt.Println("Height:", tree.Height(tree.root), "Total Nodes:", tree.TotalNodes(tree.root))
 
@@ -63,6 +71,15 @@ func Example1() {
   tree.Remove(15)
 	fmt.Println("Tree:", tree.Repr(tree.root))
 	fmt.Println("Root:", tree.root.data)
+
+  tree.Remove(6)
+	fmt.Println("Tree:", tree.Repr(tree.root))
+
+  tree.Remove(17)
+	fmt.Println("Tree:", tree.Repr(tree.root))
+
+  tree.Remove(21)
+	fmt.Println("Tree:", tree.Repr(tree.root))
 
   fmt.Println("Height:", tree.Height(tree.root), "Total Nodes:", tree.TotalNodes(tree.root))
 }
