@@ -75,9 +75,18 @@ func (tree *AVLTree) Repr(root *node) string {
 	if root.isEmptyNode() {
 		return ""
 	}
-	repr += tree.Repr(root.left)
-	repr += fmt.Sprintf("/%d\\", root.data)
-	repr += tree.Repr(root.right)
+	paddingFactor := (getNodeHeight(root) + 1) * 3
+  repr += tree.Repr(root.left)
+	repr += fmt.Sprintf(
+    "%*s\n%*d\n%*s\n",
+    paddingFactor - 1,
+    "\\",
+    paddingFactor,
+    root.data,
+    paddingFactor - 1,
+    "/",
+  )
+  repr += tree.Repr(root.right)
 	return repr
 }
 
